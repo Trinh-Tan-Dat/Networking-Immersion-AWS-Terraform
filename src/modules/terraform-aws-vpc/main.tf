@@ -9,13 +9,17 @@ locals {
   region = "us-east-1"
 
   vpc_cidr = "10.0.0.0/16"
-  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
+  azs      = slice(data.aws_availability_zones.available.names, 0, 2)
+
+  public_subnets_cidrs = ["10.0.0.0/24", "10.0.2.0/24"]
+  private_subnets_cidrs = ["10.0.1.0/24", "10.0.3.0/24"]
 
   tags = {
     Example    = local.name
     GithubRepo = "terraform-aws-vpc"
     GithubOrg  = "terraform-aws-modules"
   }
+  
 }
 
 ################################################################################
@@ -24,23 +28,16 @@ locals {
 
 module "vpc" {
   # source = "../../"
-    source = "terraform-aws-modules/vpc/aws"
+  source = "terraform-aws-modules/vpc/aws"
 
 
   name = local.name
   cidr = local.vpc_cidr
 
   azs                 = local.azs
-  private_subnets     = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k)]
-  public_subnets      = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 4)]
-  database_subnets    = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 8)]
-  elasticache_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 12)]
-  redshift_subnets    = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 16)]
-  intra_subnets       = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 20)]
+  public_subnets = local.public_subnets_cidrs
+  private_subnets = local.private_subnets_cidrs
 
-  create_database_subnet_route_table    = true
-  create_elasticache_subnet_route_table = true
-  create_redshift_subnet_route_table    = true
 
   single_nat_gateway = true
   enable_nat_gateway = true
