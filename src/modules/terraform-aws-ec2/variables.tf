@@ -14,7 +14,11 @@ variable "private_subnet_id" {
   type        = string
 }
 
-variable "security_group_id" {
+variable "security_group_id_one" {
+  description = "Security group ID to associate with instances"
+  type        = string
+}
+variable "security_group_id_two" {
   description = "Security group ID to associate with instances"
   type        = string
 }

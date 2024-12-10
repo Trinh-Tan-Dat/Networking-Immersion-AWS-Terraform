@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = local.region
 }
 
 data "aws_availability_zones" "available" {}
@@ -12,7 +12,7 @@ locals {
   azs      = slice(data.aws_availability_zones.available.names, 0, 2)
 
   tags = {
-    Name       = local.name
+    Type       = local.name
     Example    = local.name
     Repository = "https://github.com/terraform-aws-modules/terraform-aws-ec2-instance"
   }
@@ -22,7 +22,6 @@ locals {
 # EC2 Module
 ################################################################################
 
-
 module "private_ec2" {
     source = "terraform-aws-modules/ec2-instance/aws"
 
@@ -31,9 +30,9 @@ module "private_ec2" {
     instance_type  = "t2.micro"
     subnet_id      = var.private_subnet_id
     key_name       = "trinhdat"
-    vpc_security_group_ids = [var.security_group_id]
+    vpc_security_group_ids = [var.security_group_id_one]
 
-    associate_public_ip_address = false
+    associate_public_ip_address = true
 
     tags = merge(local.tags, { "Type" = "Private EC2" })
 }
@@ -48,7 +47,7 @@ module "public_ec2" {
     instance_type  = "t2.micro"
     subnet_id      = var.public_subnet_id
     key_name       = "trinhdat"
-    vpc_security_group_ids = [var.security_group_id]
+    vpc_security_group_ids = [var.security_group_id_two]
 
     associate_public_ip_address = true
 
