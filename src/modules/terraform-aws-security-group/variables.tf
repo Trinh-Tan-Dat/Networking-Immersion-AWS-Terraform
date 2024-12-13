@@ -1,22 +1,11 @@
-
-variable "vpc_id" {
-  description = "Id of vpc"
+variable "vpcA_id" {
+  description = "The ID of the VPC in which to create the security group."
   type = string
+  
 }
 
-variable "public_subnet_ids" {
-    description = "List of public subnets"
-    type = list(string)
-}
-
-variable "private_subnet_ids" {
-    description = "List of private subnets"
-    type = list(string)
-}
-
-variable "tags" {
-    description = "Tags for the VPC and its resources"
-    type = map(string)
-    default = {}
+variable "vpcB_id" {
+  description = "The ID of the VPC in which to create the security group."
+  type = string
   
 }

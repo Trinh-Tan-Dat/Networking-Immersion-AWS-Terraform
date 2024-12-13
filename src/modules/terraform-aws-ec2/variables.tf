@@ -1,34 +1,32 @@
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t2.micro"
+variable "public_subnets_vpcA" {
+    description = "The ID of the subnet in which to create the security group."
+    type = string
 }
 
-variable "public_subnet_id" {
-  description = "Subnet ID for public EC2 instance"
-  type        = string
+variable "public_subnets_vpcB" {
+    description = "The ID of the subnet in which to create the security group."
+    type = string   
+  
 }
 
-variable "private_subnet_id" {
-  description = "Subnet ID for private EC2 instance"
-  type        = string
+variable "security_group_ids_vpcA" {
+    description = "The IDs of the security groups to associate with the network interface in your VPC."
+    type = list(string)
 }
 
-variable "security_group_id_one" {
-  description = "Security group ID to associate with instances"
-  type        = string
-}
-variable "security_group_id_two" {
-  description = "Security group ID to associate with instances"
-  type        = string
+
+variable "security_group_ids_vpcB" {
+    description = "The IDs of the security groups to associate with the network interface in your VPC."
+    type = list(string)
 }
 
-variable "key_name" {
-  description = "Key pair name for EC2 instances"
-  type        = string
+variable "private_subnets_vpcA" {
+    description = "The ID of the subnet in which to create the security group."
+    type = string
 }
 
-variable "vpc_cidr" {
-  description = "CIDR block for VPC"
-  type        = string
+variable "private_subnets_vpcB" {
+    description = "The ID of the subnet in which to create the security group."
+    type = string   
+  
 }

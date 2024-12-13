@@ -1,26 +1,40 @@
-output "public_subnet_ids" {
-  description = "List of public subnets"
-  value       = module.vpc.public_subnets
-  
+
+output "vpcA" {
+  value = module.vpcA
 }
 
-output "private_subnet_ids" {
-  description = "List of private subnets"
-  value       = module.vpc.private_subnets
-  
+output "vpcB" {
+  value = module.vpcB
 }
 
-output "vpc_id" {
-  description = "VPC ID"
-  value       = module.vpc.vpc_id
+output "vpcA_id" {
+  value = module.vpcA.vpc_id
 }
 
-# output "nat_gateway_ids"{
-#   description = "Ids of NAT Gateway IDs"
-#   value       = module.vpc.nat_gateway_ids
-# }
+output "vpcB_id" {
+  value = module.vpcB.vpc_id
+}
 
-output "vpc_cidr_block" {
-  description = "CIDR block for the VPC"
-  value       = module.vpc.vpc_cidr_block
+output "vpc_cidrA" {
+  value = local.vpc_cidrA
+}
+
+output "vpc_cidrB"{
+  value = local.vpc_cidrB
+}
+
+output "private_subnets_vpcA" {
+  value = module.vpcA.private_subnets
+}
+
+output "private_subnets_vpcB" {
+  value = module.vpcB.private_subnets
+}
+
+output "public_subnets_vpcA" {
+  value = module.vpcA.public_subnets
+}
+
+output "public_subnets_vpcB" {
+  value = module.vpcB.public_subnets
 }
