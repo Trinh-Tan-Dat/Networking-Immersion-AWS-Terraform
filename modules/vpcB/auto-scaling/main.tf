@@ -58,8 +58,6 @@ module "asg" {
   capacity_reservation_specification = {
     capacity_reservation_preference = "open"
   }
-  
-
 
   network_interfaces = [
     {
@@ -69,13 +67,7 @@ module "asg" {
       security_groups       = [var.security_groupB_id]
       associate_public_ip_address = true
     }
-    # ,
-    # {
-    #   delete_on_termination = true
-    #   description           = "eth1"
-    #   device_index          = 1
-    #   security_groups       = [var.security_groupB_id]
-    # }
+
   ]
 
   tags = {

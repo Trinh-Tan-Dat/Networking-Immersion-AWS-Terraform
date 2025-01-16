@@ -1,0 +1,30 @@
+name: Checkov AWS Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'modules/**'
+  pull_request:
+
+jobs:
+  checkov:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Install Checkov
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install checkov
+
+      - name: Run Checkov on Terraform files
+        run: |
+          checkov -d modules
