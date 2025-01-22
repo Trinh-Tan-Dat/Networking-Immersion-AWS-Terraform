@@ -72,14 +72,35 @@ module "auto_scaling" {
 #   instance_ids = module.auto_scaling.instance_ids
 # }
 
+// vpc on prem
+module "vpc_on_prem" {
+  source = "./modules/on-premises-vpc/terraform-aws-vpc"
+  s3_bucket_id = module.S3-bucket.s3_bucket_id
+  security_group_id = module.security_group_on_prem.security_group_id
+  transit_gateway_id = module.transit_gateway.transit_gateway_id
+}
+
+module "security_group_on_prem" {
+  source = "./modules/on-premises-vpc/terraform-aws-security-group"
+  vpc_id = module.vpc_on_prem.vpc_id
+}
+
+module "ec2_instance_on_prem" {
+  source = "./modules/on-premises-vpc/terraform-aws-ec2"
+  security_group_id = module.security_group_on_prem.security_group_id
+  public_subnet = module.vpc_on_prem.public_subnets[0]
+  private_subnet = module.vpc_on_prem.private_subnets[0]
+}
 
 // transit gateway
 module "transit_gateway" {
   source = "./modules/terraform-aws-transit-gateway"
   private_subnets_vpcA = module.vpcA.private_subnets
   private_subnets_vpcB = module.vpcB.private_subnets
+  private_subnets_vpc_on_prem = module.vpc_on_prem.private_subnets
   vpcA_id = module.vpcA.vpc_id
   vpcB_id = module.vpcB.vpc_id
+  vpc_on_prem_id = module.vpc_on_prem.vpc_id
 }
 
 // vpc peering

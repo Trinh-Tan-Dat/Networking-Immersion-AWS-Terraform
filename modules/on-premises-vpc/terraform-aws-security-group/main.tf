@@ -67,7 +67,7 @@ resource "aws_security_group" "service_one" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
+    ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -80,7 +80,6 @@ resource "aws_security_group" "service_one" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
 }
 
 resource "aws_security_group" "service_two" {
@@ -126,7 +125,7 @@ resource "aws_security_group" "service_two" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] 
   }
-  ingress {
+    ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -139,7 +138,6 @@ resource "aws_security_group" "service_two" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
 }
 
 ########################################################

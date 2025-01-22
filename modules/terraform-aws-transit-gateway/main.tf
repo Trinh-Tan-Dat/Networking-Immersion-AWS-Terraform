@@ -51,10 +51,26 @@ module "tgw" {
       tgw_routes = [
         {
           destination_cidr_block = "10.0.0.0/16"
+        },
+        {
+          destination_cidr_block = "172.16.0.0/16"
         }
       ]
       tags = {
         Name = "transit-gateway-vpcB"
+      }
+    },
+    vpc_on_prem = {
+      vpc_id     = var.vpc_on_prem_id
+      subnet_ids = var.private_subnets_vpc_on_prem
+
+      tgw_routes = [
+        # {
+        #   destination_cidr_block = "10.1.0.0/16"
+        # }
+      ]
+      tags = {
+        Name = "transit-gateway-vpc-on-prem"
       }
     },
   }
