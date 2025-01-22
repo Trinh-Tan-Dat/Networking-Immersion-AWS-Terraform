@@ -17,7 +17,8 @@ locals {
   EOT
 }
 module "asg" {
-  source  = "terraform-aws-modules/autoscaling/aws"
+  # source  = "terraform-aws-modules/autoscaling/aws"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-autoscaling.git?ref=ea61a3179d7f3afb75a8ceda751a239ae4f43ae5"
 
   # Autoscaling group
   name = "example-asg"
@@ -73,5 +74,12 @@ module "asg" {
   tags = {
     Environment = "dev"
     Project     = "megasecret"
+  }
+}
+
+data "aws_instances" "vpcC_instances" {
+  filter {
+    name   = "vpc-id"
+    values = [var.vpcC_id]
   }
 }

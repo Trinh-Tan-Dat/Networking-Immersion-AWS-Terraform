@@ -18,7 +18,8 @@ locals {
 }
 
 module "nlb" {
-  source = "terraform-aws-modules/alb/aws"
+  # source = "terraform-aws-modules/alb/aws"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-alb.git?ref=eba2647f271b53f0a1f2f5ca6aa70b39254d53d0"
 
   name               = "my-nlb"
   load_balancer_type = "network"

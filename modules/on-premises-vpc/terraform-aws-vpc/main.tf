@@ -35,7 +35,7 @@ resource "aws_route" "vpc_prem_pub_to_vpcB" {
 ################################################################################
 
 module "vpc_on_prem" {
-  source = "terraform-aws-modules/vpc/aws"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=41348d36b3fee6bc5cd58fed18c1210401ea128e"
 
   name = local.name
   cidr = local.vpc_cidr

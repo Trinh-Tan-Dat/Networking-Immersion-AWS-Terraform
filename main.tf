@@ -63,14 +63,15 @@ module "auto_scaling" {
   security_groupC_id = module.security_group_vpcC.security_group_id
   vpcC_public_subnets = module.vpcC.vpcC_public_subnets
   vpcC_private_subnets = module.vpcC.vpcC_private_subnets
+  vpcC_id = module.vpcC.vpcC_id
 }
-# module "network_load_balancer" {
-#   source = "./modules/vpcC/load-balancer"
-#   vpcC_id = module.vpcC.vpcC_id
-#   vpcC_public_subnets = module.vpcC.vpcC_public_subnets
-#   security_groupC_id = module.security_group_vpcC.security_group_id
-#   instance_ids = module.auto_scaling.instance_ids
-# }
+module "network_load_balancer" {
+  source = "./modules/vpcC/load-balancer"
+  vpcC_id = module.vpcC.vpcC_id
+  vpcC_public_subnets = module.vpcC.vpcC_public_subnets
+  security_groupC_id = module.security_group_vpcC.security_group_id
+  instance_ids = module.auto_scaling.instance_ids
+}
 
 // vpc on prem
 module "vpc_on_prem" {
@@ -108,4 +109,11 @@ module "vpc_peering" {
   source = "./modules/terraform-aws-vpc-peering"
   vpcA_id = module.vpcA.vpc_id
   vpcC_id = module.vpcC.vpcC_id
+}
+
+// route 53
+module "route_53"{
+  source = "./modules/terraform-aws-route-53"
+  kms_endpoint_dns = module.vpcB.kms_endpoint_dns
+  nlb_dns_name = module.network_load_balancer.nlb_dns_name
 }

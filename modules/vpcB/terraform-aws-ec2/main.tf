@@ -25,7 +25,9 @@ module "ec2_instance" {
 }
 
 module "ec2_instance_private" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
+  # source  = "terraform-aws-modules/ec2-instance/aws"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-ec2-instance.git?ref=28b2c723dc5168d48b2a31214b2c26e88094c5fa"
+
 
   name = "Private EC2 Instance"
 
