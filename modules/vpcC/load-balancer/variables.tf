@@ -1,12 +1,12 @@
-variable "vpcB_id" {
+variable "vpcC_id" {
   description = "ID of the VPC"
   type        = string
 }
-variable "vpcB_public_subnets" {
+variable "vpcC_public_subnets" {
   description = "List of IDs of public subnets"
   type        = list(string)
 }
-variable "security_groupB_id" {
+variable "security_groupC_id" {
   description = "ID of the security group"
   type        = string
 }

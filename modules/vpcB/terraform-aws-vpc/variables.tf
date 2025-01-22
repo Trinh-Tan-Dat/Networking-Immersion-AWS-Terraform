@@ -8,6 +8,3 @@ variable "security_group_id" {
 variable "transit_gateway_id" {
   type = string
 }
-variable "vpc_peering_connection_id" {
-  type = string
-}

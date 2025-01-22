@@ -8,3 +8,7 @@ data "aws_instances" "asg_instances" {
 output "instance_ids" {
   value = data.aws_instances.asg_instances.ids
 }
+
+# output "instance_ids_asg" {
+#     value = module.asg.
+# }

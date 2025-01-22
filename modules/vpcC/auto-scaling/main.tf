@@ -27,8 +27,8 @@ module "asg" {
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
   # vpc_zone_identifier       = ["subnet-1235678", "subnet-87654321"]
-  vpc_zone_identifier = var.vpcB_public_subnets
-  security_groups = [var.security_groupB_id]
+  vpc_zone_identifier = var.vpcC_public_subnets
+  security_groups = [var.security_groupC_id]
  
 
   instance_refresh = {
@@ -64,7 +64,7 @@ module "asg" {
       delete_on_termination = true
       description           = "eth0"
       device_index          = 0
-      security_groups       = [var.security_groupB_id]
+      security_groups       = [var.security_groupC_id]
       associate_public_ip_address = true
     }
 

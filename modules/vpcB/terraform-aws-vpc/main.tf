@@ -5,10 +5,10 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = "VPC A"
+  name   = "VPC B"
   region = "us-east-1"
 
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr = "10.1.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 2)
 
   tags = {
@@ -17,33 +17,12 @@ locals {
     GithubOrg  = "terraform-aws-modules"
   }
 }
-resource "aws_route" "vpcA_to_vpcB" {
-  route_table_id         = module.vpcA.private_route_table_ids[0]
-  destination_cidr_block = "10.1.0.0/16"
-  transit_gateway_id     = var.transit_gateway_id
-}
-resource "aws_route" "vpcA_to_vpcC" {
-  route_table_id         = module.vpcA.private_route_table_ids[0]
-  destination_cidr_block = "10.2.0.0/16"
-  vpc_peering_connection_id = var.vpc_peering_connection_id
-}
-resource "aws_route" "vpcAPub_to_vpcB" {
-  route_table_id         = module.vpcA.public_route_table_ids[0]
-  destination_cidr_block = "10.1.0.0/16"
-  transit_gateway_id     = var.transit_gateway_id
-}
-resource "aws_route" "vpcAPub_to_vpcC" {
-  route_table_id         = module.vpcA.public_route_table_ids[0]
-  destination_cidr_block = "10.2.0.0/16"
-  vpc_peering_connection_id = var.vpc_peering_connection_id
-}
-
 
 ################################################################################
 # VPC Module
 ################################################################################
 
-module "vpcA" {
+module "vpcB" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = local.name
@@ -89,4 +68,62 @@ module "vpcA" {
 #   tags = local.tags
 
   
+}
+
+resource "aws_route" "vpcB_to_vpcA" {
+  route_table_id         = module.vpcB.private_route_table_ids[0]
+  destination_cidr_block = "10.0.0.0/16"
+  transit_gateway_id     = var.transit_gateway_id
+}
+resource "aws_route" "vpcBPub_to_vpcA" {
+  route_table_id         = module.vpcB.public_route_table_ids[0]
+  destination_cidr_block = "10.0.0.0/16"
+  transit_gateway_id     = var.transit_gateway_id
+}
+
+
+resource "aws_vpc_endpoint" "s3_gateway" {
+  vpc_id = module.vpcB.vpc_id
+  service_name = "com.amazonaws.us-east-1.s3"
+  vpc_endpoint_type = "Gateway"
+  tags = {
+    Environment = "test"
+    Name        = "s3-gateway-vpc-endpoint"
+  }
+  route_table_ids = module.vpcB.private_route_table_ids
+  
+  
+}
+
+resource "aws_vpc_endpoint" "s3_interface" {
+  vpc_id = module.vpcB.vpc_id
+  service_name      = "com.amazonaws.us-east-1.s3"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    var.security_group_id,
+  ]
+
+  private_dns_enabled = true
+  subnet_ids = module.vpcB.private_subnets
+  tags = {
+    Environment = "test"
+    Name        = "s3-interface-vpc-endpoint"
+  }
+}
+
+resource "aws_vpc_endpoint" "kms_interface" {
+  vpc_id = module.vpcB.vpc_id
+  service_name      = "com.amazonaws.us-east-1.kms"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    var.security_group_id,
+  ]
+  subnet_ids = module.vpcB.private_subnets
+  private_dns_enabled = true
+    tags = {
+    Environment = "test"
+    Name        = "kms-interface-vpc-endpoint"
+  }
 }

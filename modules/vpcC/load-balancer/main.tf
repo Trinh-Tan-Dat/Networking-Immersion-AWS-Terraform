@@ -22,9 +22,9 @@ module "nlb" {
 
   name               = "my-nlb"
   load_balancer_type = "network"
-  vpc_id             = var.vpcB_id
-  subnets            = [var.vpcB_public_subnets[0], var.vpcB_public_subnets[1]]
-  security_groups    = [var.security_groupB_id]
+  vpc_id             = var.vpcC_id
+  subnets            = [var.vpcC_public_subnets[0], var.vpcC_public_subnets[1]]
+  security_groups    = [var.security_groupC_id]
   enable_deletion_protection = false
 
   listeners = {
@@ -71,5 +71,5 @@ module "nlb" {
 #   port        = 80
 #   protocol    = "TCP"
 # #   target_type = "instance"
-#   vpc_id      = var.vpcB_id
+#   vpc_id      = var.vpcC_id
 # }

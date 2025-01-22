@@ -5,10 +5,10 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = "VPC B"
+  name   = "VPC C"
   region = "us-east-1"
 
-  vpc_cidr = "10.1.0.0/16"
+  vpc_cidr = "10.2.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 2)
 
   tags = {
@@ -17,12 +17,23 @@ locals {
     GithubOrg  = "terraform-aws-modules"
   }
 }
+resource "aws_route" "vpcC_to_vpcA" {
+  route_table_id         = module.vpcC.private_route_table_ids[0]
+  destination_cidr_block = "10.0.0.0/16"
+  vpc_peering_connection_id = var.vpc_peering_connection_id
+}
+resource "aws_route" "vpcC_public_to_vpcA" {
+  route_table_id         = module.vpcC.public_route_table_ids[0]
+  destination_cidr_block = "10.0.0.0/16"
+  vpc_peering_connection_id = var.vpc_peering_connection_id
+}
+
 
 ################################################################################
 # VPC Module
 ################################################################################
 
-module "vpcB" {
+module "vpcC" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = local.name
