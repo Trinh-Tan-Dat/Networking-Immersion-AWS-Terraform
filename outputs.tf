@@ -47,10 +47,10 @@ output "kms_endpoint_dns"{
   description = "DNS name of the KMS interface endpoint"
   value       = module.vpcB.kms_endpoint_dns
 }
-output "public_ec2_ip_address_vpcC" {
-  value = module.auto_scaling.ip_addresses
-  description = "The IP addresses of the EC2 instances in VPC C"
-}
+# output "public_ec2_ip_address_vpcC" {
+#   value = module.auto_scaling.ip_addresses
+#   description = "The IP addresses of the EC2 instances in VPC C"
+# }
 output "nlb_dns_name"{
   description = "DNS name of the Network Load Balancer"
   value       = module.network_load_balancer.nlb_dns_name

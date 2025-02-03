@@ -1,5 +1,5 @@
 module "kms" {
-  source = "git::https://github.com/terraform-aws-modules/terraform-aws-kms.git?ref=d6e3c91ec2480502618251c45ab8bcf6c57ec37bd08a8370"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-kms.git?ref=c2480502618251c45ab8bcf6c57ec37bd08a8370"
 
   description = "EC2 AutoScaling key usage"
   key_usage   = "ENCRYPT_DECRYPT"
