@@ -12,12 +12,12 @@ module "security_group" {
   vpc_id = module.vpcA.vpc_id
 }
 
-module "ec2_instance" {
-  source = "./modules/vpcA/terraform-aws-ec2"
-  security_group_id = module.security_group.security_group_id
-  public_subnet = module.vpcA.public_subnets[0]
-  private_subnet = module.vpcA.private_subnets[0]
-}
+# module "ec2_instance" {
+#   source = "./modules/vpcA/terraform-aws-ec2"
+#   security_group_id = module.security_group.security_group_id
+#   public_subnet = module.vpcA.public_subnets[0]
+#   private_subnet = module.vpcA.private_subnets[0]
+# }
 
 // vpc B
 module "vpcB" {
@@ -31,21 +31,21 @@ module "S3-bucket"{
   source = "./modules/vpcB/terraform-aws-s3"
 }
 
-module "KMS" {
-  source = "./modules/vpcB/terraform-aws-kms"
-}
+# module "KMS" {
+#   source = "./modules/vpcB/terraform-aws-kms"
+# }
 
 module "security_group_vpcB" {
   source = "./modules/vpcB/terraform-aws-security-group"
   vpc_id = module.vpcB.vpc_id
 }
 
-module "ec2_instance_vpcB" {
-  source = "./modules/vpcB/terraform-aws-ec2"
-  security_group_id = module.security_group_vpcB.security_group_id
-  public_subnet = module.vpcB.public_subnets[0]
-  private_subnet = module.vpcB.private_subnets[0]
-}
+# module "ec2_instance_vpcB" {
+#   source = "./modules/vpcB/terraform-aws-ec2"
+#   security_group_id = module.security_group_vpcB.security_group_id
+#   public_subnet = module.vpcB.public_subnets[0]
+#   private_subnet = module.vpcB.private_subnets[0]
+# }
 
 /// vpc C
 module "vpcC" {
@@ -58,20 +58,20 @@ module "security_group_vpcC" {
   vpcC_id = module.vpcC.vpcC_id
 }
 
-module "auto_scaling" {
-  source = "./modules/vpcC/auto-scaling"
-  security_groupC_id = module.security_group_vpcC.security_group_id
-  vpcC_public_subnets = module.vpcC.vpcC_public_subnets
-  vpcC_private_subnets = module.vpcC.vpcC_private_subnets
-  vpcC_id = module.vpcC.vpcC_id
-}
-module "network_load_balancer" {
-  source = "./modules/vpcC/load-balancer"
-  vpcC_id = module.vpcC.vpcC_id
-  vpcC_public_subnets = module.vpcC.vpcC_public_subnets
-  security_groupC_id = module.security_group_vpcC.security_group_id
-  instance_ids = module.auto_scaling.instance_ids
-}
+# module "auto_scaling" {
+#   source = "./modules/vpcC/auto-scaling"
+#   security_groupC_id = module.security_group_vpcC.security_group_id
+#   vpcC_public_subnets = module.vpcC.vpcC_public_subnets
+#   vpcC_private_subnets = module.vpcC.vpcC_private_subnets
+#   vpcC_id = module.vpcC.vpcC_id
+# }
+# module "network_load_balancer" {
+#   source = "./modules/vpcC/load-balancer"
+#   vpcC_id = module.vpcC.vpcC_id
+#   vpcC_public_subnets = module.vpcC.vpcC_public_subnets
+#   security_groupC_id = module.security_group_vpcC.security_group_id
+#   instance_ids = module.auto_scaling.instance_ids
+# }
 
 // vpc on prem
 module "vpc_on_prem" {
@@ -86,12 +86,12 @@ module "security_group_on_prem" {
   vpc_id = module.vpc_on_prem.vpc_id
 }
 
-module "ec2_instance_on_prem" {
-  source = "./modules/on-premises-vpc/terraform-aws-ec2"
-  security_group_id = module.security_group_on_prem.security_group_id
-  public_subnet = module.vpc_on_prem.public_subnets[0]
-  private_subnet = module.vpc_on_prem.private_subnets[0]
-}
+# module "ec2_instance_on_prem" {
+#   source = "./modules/on-premises-vpc/terraform-aws-ec2"
+#   security_group_id = module.security_group_on_prem.security_group_id
+#   public_subnet = module.vpc_on_prem.public_subnets[0]
+#   private_subnet = module.vpc_on_prem.private_subnets[0]
+# }
 
 // transit gateway
 module "transit_gateway" {
@@ -112,8 +112,8 @@ module "vpc_peering" {
 }
 
 // route 53
-module "route_53"{
-  source = "./modules/terraform-aws-route-53"
-  kms_endpoint_dns = module.vpcB.kms_endpoint_dns
-  nlb_dns_name = module.network_load_balancer.nlb_dns_name
-}
+# module "route_53"{
+#   source = "./modules/terraform-aws-route-53"
+#   kms_endpoint_dns = module.vpcB.kms_endpoint_dns
+#   nlb_dns_name = module.network_load_balancer.nlb_dns_name
+# }
