@@ -38,3 +38,27 @@ module "transit_gateway" {
   vpcA_id = module.vpc.vpcA_id
   vpcB_id = module.vpc.vpcB_id
 }
+
+
+
+
+///////////////////////////////////////////////////
+//On-Premises
+# ///////////////////////////////////////////////////
+
+
+# module "vpc_on_premises" {
+#   source = "./modules/On-Premises/vpc"
+
+# }
+
+# module "security_group_on_premises" {
+#   source = "./modules/On-Premises/security-group"
+#   vpc_on_premises_id = module.vpc_on_premises.vpc_on_premises_id
+# }
+
+# module "ec2_on_premises" {
+#   source = "./modules/On-Premises/ec2"
+#   public_subnet_on_premises = module.vpc_on_premises.public_subnet_on_premises[0]
+#   sg_on_premises_id = module.security_group_on_premises.sg_on_premises_id
+# }
